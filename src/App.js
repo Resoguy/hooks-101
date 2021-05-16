@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import {
+  Link,
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
+import HomePage from './components/HomePage';
+import Counter from './components/Counter';
+import {CountContext} from './store';
+import s from './App.module.css';
+
 
 function App() {
+  const [count, setCount] = useState(0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CountContext.Provider value={[count, setCount]}>
+      <Router>
+        <div>
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/counter">Counter</Link>
+          </nav>
+          <h1>Hooks App</h1>
+
+          <hr />
+
+          <Switch>
+            <Route path="/" exact>
+              <HomePage />
+            </Route>
+
+            <Route path="/counter">
+              <Counter />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </CountContext.Provider>
   );
 }
 
